@@ -1,3 +1,7 @@
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+
 def split_data(data, validation_rate=0.2, test_rate=0.1, shuffle=True):
     """
     데이터를 train, validation, test 데이터로 쪼개어 csv로 저장
@@ -29,3 +33,22 @@ def default_transform_log_data(log_data):
     log_data['pay'] = log_data['pay'].apply(lambda pay: 1 if pay > 0 else 0)
 
     return log_data
+
+
+def normalize_feature(data, fields):
+    data = data.copy(deep=True)
+    for field in fields:
+        min_max_scaler = MinMaxScaler()
+        data[field] = min_max_scaler.fit_transform(data[field].values.reshape(-1, 1)).reshape(-1)
+
+    return data
+
+
+def one_hot_encoder(data, fields):
+    data = data.copy(deep=True)
+    for field in fields:
+        dummies = pd.get_dummies(data[field], prefix=field, drop_first=False)
+        data = pd.concat([data, dummies], axis=1)
+
+    data.drop(fields, axis=1)
+    return data
