@@ -1,4 +1,4 @@
-from log_data.processor import separate_features_and_label, remove_pc_ids
+from log_data.processor import separate_features_and_label, drop_fields
 
 
 class SklearnHelper:
@@ -11,14 +11,11 @@ class SklearnHelper:
         params = params if params else {}
         self.clf = cls(**params)
 
-    def train(self, train_data):
-        x_train, y_train = separate_features_and_label(train_data)
-        x_train = remove_pc_ids(x_train)
+    def train(self, x_train, y_train):
         self.clf.fit(x_train, y_train)
 
     def predict(self, x):
-        x = remove_pc_ids(x)
         return self.clf.predict(x)
 
-    def feature_importances(self, train_data):
-        print(self.train(train_data).feature_importances_)
+    def feature_importances(self, x, y):
+        print(self.train(x, y).feature_importances_)

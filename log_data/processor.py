@@ -61,5 +61,5 @@ def separate_features_and_label(data):
     return X, y
 
 
-def remove_pc_ids(features):
-    return features.drop('pc_id', axis=1)
+def drop_fields(features, fields):
+    return features.drop(fields, axis=1)
