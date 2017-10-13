@@ -7,7 +7,7 @@ from printers.plt import print_confusion_matrix
 
 if __name__ == '__main__':
     loader = LogDataLoader()
-    batch = loader.load_batch(1)
+    batch = loader.load_batch(10)
     batch = transform_pay_as_label(batch)
     batch = normalize_feature(batch,
                               ['duration(sec)', 'visit', 'event', 'pv', 'productview', 'cart', 'wishlist', 'order'])
