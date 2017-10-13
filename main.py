@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 from log_data.loader import LogDataLoader
 from log_data.processor import split_data, normalize_feature, one_hot_encoder
 from models.sklearn import SklearnHelper
+from printers.plt import print_confusion_matrix
 
 if __name__ == '__main__':
     loader = LogDataLoader()
@@ -25,4 +26,4 @@ if __name__ == '__main__':
 
     rf.train(train_data)
     predicted_labels = rf.predict(validate_data.drop('pay', axis=1))
-    print('Accuracy: {:2f}'.format(sum(predicted_labels == validate_data.pay) / len(validate_data.pay)))
+    print_confusion_matrix(validate_data.pay.apply(lambda pay: 1 if pay > 0 else 0), predicted_labels)
