@@ -1,6 +1,3 @@
-from log_data.processor import separate_features_and_label, drop_fields
-
-
 class SklearnHelper:
     """
     사용방법:

@@ -50,8 +50,7 @@ def one_hot_encoder(data, fields):
         dummies = pd.get_dummies(data[field], prefix=field, drop_first=False)
         data = pd.concat([data, dummies], axis=1)
 
-    data.drop(fields, axis=1)
-    return data
+    return data.drop(fields, axis=1)
 
 
 def separate_features_and_label(data):
