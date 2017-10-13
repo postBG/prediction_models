@@ -16,6 +16,7 @@ class SklearnHelper:
     """
 
     def __init__(self, cls, params=None):
+        params = params if params else {}
         self.clf = cls(**params)
 
     def train(self, train_data):

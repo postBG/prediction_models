@@ -28,7 +28,7 @@ def split_data(data, validation_rate=0.2, test_rate=0.1, shuffle=True):
     return train_data, validation_data, test_data
 
 
-def default_transform_log_data(log_data):
+def transform_pay_as_label(log_data):
     log_data = log_data.copy(deep=True)
     log_data['pay'] = log_data['pay'].apply(lambda pay: 1 if pay > 0 else 0)
 
