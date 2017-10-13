@@ -1,12 +1,4 @@
-def separate_features_and_label(data):
-    y = data['pay']
-    X = data.drop('pay', axis=1)
-
-    return X, y
-
-
-def remove_pc_ids(features):
-    return features.drop('pc_id', axis=1)
+from log_data.processor import separate_features_and_label, remove_pc_ids
 
 
 class SklearnHelper:

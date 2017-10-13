@@ -52,3 +52,14 @@ def one_hot_encoder(data, fields):
 
     data.drop(fields, axis=1)
     return data
+
+
+def separate_features_and_label(data):
+    y = data['pay']
+    X = data.drop('pay', axis=1)
+
+    return X, y
+
+
+def remove_pc_ids(features):
+    return features.drop('pc_id', axis=1)
