@@ -65,12 +65,28 @@ def drop_fields(features, fields):
 
 
 class Preprocessor:
-    @staticmethod
-    def process(data):
+    def process(self, data):
+        raise NotImplementedError
+
+
+class DefaultPreprocessor(Preprocessor):
+    def process(self, data):
         data = transform_pay_as_label(data)
         data = normalize_feature(data,
                                  ['duration(sec)', 'visit', 'event', 'pv', 'productview', 'cart', 'wishlist', 'order'])
         data = one_hot_encoder(data, ['isLogin'])
         data = drop_fields(data, ['pc_id'])
+
+        return data
+
+
+class ReadyPreProcessor(Preprocessor):
+    def process(self, data):
+        data['ready'] = data['cart'] + data['productview'] + data['order']
+        data = drop_fields(data, ['pc_id', 'productview', 'cart', 'order', 'wishlist'])
+
+        data = transform_pay_as_label(data)
+        data = normalize_feature(data, ['duration(sec)', 'visit', 'event', 'pv', 'ready'])
+        data = one_hot_encoder(data, ['isLogin'])
 
         return data
