@@ -4,6 +4,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import RandomUnderSampler
 
 from log_data.loader import LogDataLoader
 from log_data.processor import Preprocessor, split_data, separate_features_and_label
@@ -21,13 +22,11 @@ if __name__ == '__main__':
     train_data, validate_data, test_data = split_data(batch, validation_rate=0)
     x_train, y_train = separate_features_and_label(train_data)
 
-    sm = SMOTE()
-    x_res, y_res = sm.fit_sample(x_train, y_train)
-    rf = SklearnHelper(cls=MLPClassifier, params={
-        'warm_start': True,
-        'hidden_layer_sizes': (100, 100)
-    })
-    rf.train(x_res, y_res)
+    sm = RandomUnderSampler()
+    x_train, y_train = sm.fit_sample(x_train, y_train)
+    rf = SklearnHelper(cls=RandomForestClassifier)
+    rf.train(x_train, y_train)
+    rf.save('models/persisted_models/rf_random_under.pkl')
 
     predicted_labels = rf.predict(test_data.drop('pay', axis=1))
     print_confusion_matrix(test_data.pay.apply(lambda pay: 1 if pay > 0 else 0), predicted_labels)

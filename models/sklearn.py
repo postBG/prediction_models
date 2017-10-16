@@ -1,4 +1,7 @@
-class SklearnHelper:
+from models.mixins import ModelPersistMixin
+
+
+class SklearnHelper(ModelPersistMixin):
     """
     사용방법:
         rf = SklearnHelper(clf=RandomForestClassifier, params=rf_params)
