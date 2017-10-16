@@ -49,6 +49,7 @@ def get_metrics(cm):
 
     return precision, recall, f1_score, accuracy
 
+
 def get_font_color(value):
     if value < 5:
         return "black"

@@ -62,3 +62,15 @@ def separate_features_and_label(data):
 
 def drop_fields(features, fields):
     return features.drop(fields, axis=1)
+
+
+class Preprocessor:
+    @staticmethod
+    def process(data):
+        data = transform_pay_as_label(data)
+        data = normalize_feature(data,
+                                 ['duration(sec)', 'visit', 'event', 'pv', 'productview', 'cart', 'wishlist', 'order'])
+        data = one_hot_encoder(data, ['isLogin'])
+        data = drop_fields(data, ['pc_id'])
+
+        return data
