@@ -53,13 +53,6 @@ def one_hot_encoder(data, fields):
     return data.drop(fields, axis=1)
 
 
-def separate_features_and_label(data):
-    y = data['pay']
-    X = data.drop('pay', axis=1)
-
-    return X, y
-
-
 def drop_fields(features, fields):
     return features.drop(fields, axis=1)
 
@@ -67,6 +60,13 @@ def drop_fields(features, fields):
 class Preprocessor:
     def process(self, data):
         raise NotImplementedError
+
+    @staticmethod
+    def separate_features_and_label(data):
+        y = data['pay']
+        X = data.drop('pay', axis=1)
+
+        return X, y
 
 
 class DefaultPreprocessor(Preprocessor):
@@ -101,3 +101,7 @@ class FeedForwardProcessor(Preprocessor):
         data = drop_fields(data, ['pc_id'])
 
         return data
+
+    @staticmethod
+    def separate_features_and_label(data):
+        return data.drop(['pay_0', 'pay_1'], axis=1), data.filter(['pay_0', 'pay_1'])
