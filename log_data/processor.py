@@ -105,3 +105,12 @@ class FeedForwardProcessor(Preprocessor):
     @staticmethod
     def separate_features_and_label(data):
         return data.drop(['pay_0', 'pay_1'], axis=1), data.filter(['pay_0', 'pay_1'])
+
+    def to_mini_batch(self, data, batch_size):
+        data_size = len(data)
+
+        features, labels = self.separate_features_and_label(data)
+        for start in range(0, data_size, batch_size):
+            end = min(start + batch_size, data_size) - 1
+
+            yield features.loc[start: end].values, labels.loc[start:end].values
