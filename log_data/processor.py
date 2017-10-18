@@ -90,3 +90,14 @@ class ReadyPreProcessor(Preprocessor):
         data = one_hot_encoder(data, ['isLogin'])
 
         return data
+
+
+class FeedForwardProcessor(Preprocessor):
+    def process(self, data):
+        data = transform_pay_as_label(data)
+        data = normalize_feature(data,
+                                 ['duration(sec)', 'visit', 'event', 'pv', 'productview', 'cart', 'wishlist', 'order'])
+        data = one_hot_encoder(data, ['isLogin', 'pay'])
+        data = drop_fields(data, ['pc_id'])
+
+        return data
