@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from layers import fully_connected, dropout
+from models.neural_network.layers import fully_connected, dropout
 
 
 def _get_hidden_layer_name(idx):
