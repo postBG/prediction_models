@@ -12,7 +12,6 @@ class SimpleFeedForwardNetwork:
         self.inputs = inputs
         self.labels = tf.placeholder(tf.int32, name='labels')
 
-        self.drop_rate = tf.placeholder(tf.float32, name="dropout_rate")
         self.layer_shape = layer_shape
         self.layers = {
             'inputs': self.inputs

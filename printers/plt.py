@@ -3,6 +3,8 @@ import random
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
+from metric import get_metrics
+
 
 def print_confusion_matrix(labels, predicted_labels, class_names=(0, 1)):
     cm = confusion_matrix(labels, predicted_labels)
@@ -39,15 +41,6 @@ def print_confusion_matrix(labels, predicted_labels, class_names=(0, 1)):
     plt.figtext(0.01, 0.01, "Accuracy: {:2f}".format(accuracy))
 
     plt.show()
-
-
-def get_metrics(cm):
-    precision = cm[1, 1] / sum(cm[:, 1])
-    recall = cm[1, 1] / sum(cm[1, :])
-    f1_score = 2 * precision * recall / (precision + recall)
-    accuracy = (cm[0, 0] + cm[1, 1]) / sum(sum(cm))
-
-    return precision, recall, f1_score, accuracy
 
 
 def get_font_color(value):

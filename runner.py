@@ -1,8 +1,10 @@
 import tensorflow as tf
+import numpy as np
 
 from log_data.loader import LogDataLoader
 from log_data.processor import FeedForwardProcessor, split_data
 from models.neural_network.models import SimpleFeedForwardNetwork
+from metric import get_metrics_using_labels
 
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_integer('date', 10,
@@ -19,13 +21,19 @@ def _optimizer(model, lr):
     return tf.train.AdamOptimizer(learning_rate=lr).minimize(model.loss)
 
 
+def prob_to_labels(probs):
+    return np.argmax(probs, axis=1)
+
+
 def main():
     loader = LogDataLoader()
     batch = loader.load_batch(FLAGS.date)
     data_processor = FeedForwardProcessor()
 
     batch = data_processor.process(batch)
-    train_data, validate_data, test_data = split_data(batch, validation_rate=0)
+    train_data, validate_data, test_data = split_data(batch, validation_rate=0.2)
+
+    validate_features, validate_labels = data_processor.separate_features_and_label(validate_data)
 
     minibatch = data_processor.to_mini_batch(train_data, FLAGS.batch_size)
 
@@ -41,7 +49,18 @@ def main():
                     model.inputs: X,
                     model.labels: y
                 })
-            
+
+            predicted_logits, loss = sess.run([model.logits, model.loss], feed_dict={
+                model.inputs: validate_features,
+                model.labels: validate_labels
+            })
+
+            predicted_labels = prob_to_labels(predicted_logits)
+            labels = prob_to_labels(validate_labels.values)
+            precision, recall, f1_score, accuracy = get_metrics_using_labels(labels, predicted_labels)
+            print("Epoch: {} > Loss: {:2f}, Precision: {:2f}, Recall: {:2f}, F1-Score: {:2f}, Accuracy: {:2f}"
+                  .format(epoch, loss, precision, recall, f1_score, accuracy))
+
 
 if __name__ == '__main__':
     main()
