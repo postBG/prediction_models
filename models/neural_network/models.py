@@ -28,7 +28,7 @@ class SimpleFeedForwardNetwork:
             with tf.name_scope(hidden_layer_name):
                 layer = fully_connected(layer, n_units,
                                         activation=tf.nn.relu,
-                                        kernel_initializer=tf.truncated_normal_initializer(stddev=0.05))
+                                        kernel_initializer=tf.truncated_normal_initializer(stddev=0.005))
 
             self.layers[hidden_layer_name] = layer
 
