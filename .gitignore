@@ -55,5 +55,5 @@ secrets.json
 logs/
 
 ## python notebook
-Test.ipynb
+*.ipynb
 .ipynb_checkpoints

@@ -1,6 +1,7 @@
 import tensorflow as tf
 
 from models.neural_network.layers import fully_connected, dropout
+from models.neural_network.utils import cross_entropy
 
 
 def _get_hidden_layer_name(idx):
@@ -8,10 +9,11 @@ def _get_hidden_layer_name(idx):
 
 
 class SimpleFeedForwardNetwork:
-    def __init__(self, inputs, layer_shape):
+    def __init__(self, inputs, layer_shape, loss_func=cross_entropy):
         self.inputs = inputs
         self.labels = tf.placeholder(tf.int32, name='labels')
 
+        self.loss_func = loss_func
         self.layer_shape = layer_shape
         self.layers = {
             'inputs': self.inputs
@@ -33,4 +35,4 @@ class SimpleFeedForwardNetwork:
         with tf.name_scope('output_layer'):
             self.logits = fully_connected(layer, 2)
 
-        self.loss = tf.reduce_mean(tf.losses.softmax_cross_entropy(self.labels, self.logits))
+        self.loss = self.loss_func(self.labels, self.logits)
