@@ -28,7 +28,7 @@ def _mean_squared_false_error(labels, output):
     fpe = _false_positive_error(labels, output)
     fne = _false_negative_error(labels, output)
 
-    return tf.add(tf.square(fpe), tf.square(fne))
+    return tf.add(20 * tf.square(fpe), tf.square(fne))
 
 
 def _false_positive_error(labels, output):

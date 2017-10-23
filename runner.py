@@ -11,7 +11,7 @@ from printers.plt import print_confusion_matrix
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_integer('date', 10,
                             """테스트에 사용할 날짜""")
-tf.app.flags.DEFINE_integer('epochs', 150,
+tf.app.flags.DEFINE_integer('epochs', 100,
                             """테스트에 사용할 날짜""")
 tf.app.flags.DEFINE_integer('batch_size', 128,
                             """Batch size""")
