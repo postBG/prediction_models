@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from models.neural_network.layers import fully_connected, dropout
-from models.neural_network.utils import cross_entropy
+from models.neural_network.loss import cross_entropy
 
 
 def _get_hidden_layer_name(idx):

@@ -4,18 +4,18 @@ import numpy as np
 from log_data.loader import LogDataLoader
 from log_data.processor import FeedForwardProcessor, split_data
 from models.neural_network.models import SimpleFeedForwardNetwork
-from models.neural_network.utils import mean_false_error, mean_squared_false_error
+from models.neural_network.loss import mean_false_error, mean_squared_false_error, cross_entropy
 from metric import get_metrics_using_labels
 from printers.plt import print_confusion_matrix
 
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_integer('date', 10,
                             """테스트에 사용할 날짜""")
-tf.app.flags.DEFINE_integer('epochs', 100,
+tf.app.flags.DEFINE_integer('epochs', 150,
                             """테스트에 사용할 날짜""")
 tf.app.flags.DEFINE_integer('batch_size', 128,
                             """Batch size""")
-tf.app.flags.DEFINE_float('lr', 0.0001,
+tf.app.flags.DEFINE_float('lr', 0.0003,
                           """Learning Rate""")
 
 
